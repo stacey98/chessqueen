@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening Reps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=block&text=%E2%99%94%E2%99%95%E2%99%96%E2%99%97%E2%99%98%E2%99%99%E2%99%9A%E2%99%9B%E2%99%9C%E2%99%9D%E2%99%9E%E2%99%9F">
+<style>
+:root {
+  /* Layout: home = intro, mixed-reps strip, then two side-by-side columns (As White / As Black) of opening rows.
+     Trainer = board on the left, coach panel on the right; stacks to one column under 900px. */
+  --bg: #e9ecf0;
+  --surface: #fafbfc;
+  --surface-2: #e0e5eb;
+  --ink: #131820;
+  --muted: #586375;
+  --line: #cfd6df;
+  --accent: #985a12;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(152, 90, 18, .12);
+  --good: #2a7849;
+  --good-soft: rgba(42, 120, 73, .12);
+  --bad: #b13a3a;
+  --bad-soft: rgba(177, 58, 58, .11);
+  --sq-light: #dfe5ec;
+  --sq-dark: #7189a3;
+  --hl: rgba(238, 178, 58, .48);
+  --sel: rgba(238, 178, 58, .78);
+  --dot: rgba(19, 24, 32, .30);
+  --arrow: rgba(212, 128, 20, .9);
+  --wp-fill: #fbfaf6;
+  --wp-line: #151a21;
+  --bp-fill: #191d24;
+  --bp-line: #56627a;
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --f-piece: "Noto Sans Symbols 2", "Segoe UI Symbol", "DejaVu Sans", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1116; --surface: #151a21; --surface-2: #1d242d; --ink: #e5e8ed; --muted: #97a1b0; --line: #28303a;
+    --accent: #e3a54e; --accent-ink: #1b1206; --accent-soft: rgba(227, 165, 78, .14);
+    --good: #5bb37f; --good-soft: rgba(91, 179, 127, .14); --bad: #e27474; --bad-soft: rgba(226, 116, 116, .14);
+    --sq-light: #c2cbd6; --sq-dark: #5d728b; --dot: rgba(10, 13, 18, .36);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1116; --surface: #151a21; --surface-2: #1d242d; --ink: #e5e8ed; --muted: #97a1b0; --line: #28303a;
+  --accent: #e3a54e; --accent-ink: #1b1206; --accent-soft: rgba(227, 165, 78, .14);
+  --good: #5bb37f; --good-soft: rgba(91, 179, 127, .14); --bad: #e27474; --bad-soft: rgba(226, 116, 116, .14);
+  --sq-light: #c2cbd6; --sq-dark: #5d728b; --dot: rgba(10, 13, 18, .36);
+  color-scheme: dark;
+}
+html, body { min-height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.muted { color: var(--muted); }
+.mono { font-family: var(--f-mono); }
+
+/* Top bar */
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 800; font-size: 18px; letter-spacing: .01em; text-decoration: none; }
+.brand-mark { width: 22px; height: 22px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-radius: 4px; overflow: hidden; }
+.brand-mark i:nth-child(1), .brand-mark i:nth-child(4) { background: var(--sq-dark); }
+.brand-mark i:nth-child(2), .brand-mark i:nth-child(3) { background: var(--accent); }
+.top-stat { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Home */
+.home { display: flex; flex-direction: column; gap: 28px; padding-block: 32px 48px; }
+.intro { display: flex; flex-direction: column; gap: 10px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.intro h1 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4.6vw, 46px); line-height: 1.06; letter-spacing: -.01em; text-wrap: balance; max-width: 22ch; }
+.intro p { margin: 0; max-width: 64ch; color: var(--muted); font-size: 16px; }
+.mix { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.mix-text { flex: 1 1 260px; min-width: 0; }
+.mix-text strong { font-family: var(--f-display); font-size: 17px; display: block; }
+.mix-text span { color: var(--muted); font-size: 14px; }
+.mix-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.groups { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 860px) { .groups { grid-template-columns: 1fr; } }
+.group { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.group-h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.group-h h2 { margin: 0; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.op-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; align-items: center; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; transition: border-color .15s, transform .15s; }
+.op-row:hover { border-color: var(--accent); }
+.op-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.op-name { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.op-name h3 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: 19px; line-height: 1.15; }
+.eco { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); letter-spacing: .03em; }
+.op-seq { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
+.op-blurb { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--muted); }
+.op-prog { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; grid-row: 1 / span 2; grid-column: 2; }
+.op-count { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.op-count b { color: var(--ink); font-weight: 600; }
+.pips { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; max-width: 180px; }
+.pip { width: 12px; height: 6px; border-radius: 2px; background: var(--surface-2); }
+.pip.seen { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.pip.s1 { background: var(--accent); opacity: .45; box-shadow: none; }
+.pip.s2 { background: var(--accent); opacity: .75; box-shadow: none; }
+.pip.s3 { background: var(--good); }
+.foot { font-size: 13px; color: var(--muted); max-width: 70ch; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 16px; }
+.foot p { margin: 0; }
+
+/* Buttons */
+.btn { font: 600 14px/1.2 var(--f-body); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover:not(:disabled) { filter: brightness(1.06); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:focus-visible, .tab:focus-visible, .link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn kbd { font-family: var(--f-mono); font-size: 11px; opacity: .7; }
+.link { background: none; border: 0; padding: 0; font: inherit; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Trainer */
+.trainer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: 24px; padding-block: 20px 40px; align-items: start; }
+@media (max-width: 900px) { .trainer { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 12px 32px; } }
+.board-col { display: flex; flex-direction: column; gap: 10px; align-items: center; min-width: 0; }
+.board-wrap { position: relative; width: min(100%, 640px, calc(100dvh - 120px)); min-width: 260px; max-width: 100%; aspect-ratio: 1; }
+@media (max-width: 900px) { .board-wrap { width: min(100%, 560px); min-width: 0; } }
+.board { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); container-type: inline-size; touch-action: none; user-select: none; -webkit-user-select: none; border-radius: 6px; box-shadow: 0 1px 0 var(--line), 0 10px 30px rgba(15, 20, 30, .18); cursor: pointer; }
+.sq { position: relative; }
+.sq.l { background: var(--sq-light); }
+.sq.d { background: var(--sq-dark); }
+.sq:nth-child(1) { border-top-left-radius: 6px; }
+.sq:nth-child(8) { border-top-right-radius: 6px; }
+.sq:nth-child(57) { border-bottom-left-radius: 6px; }
+.sq:nth-child(64) { border-bottom-right-radius: 6px; }
+.sq.last { box-shadow: inset 0 0 0 100vmax var(--hl); }
+.sq.sel { box-shadow: inset 0 0 0 100vmax var(--sel); }
+.sq.bad { box-shadow: inset 0 0 0 100vmax rgba(205, 55, 55, .55); }
+.sq.chk { background-image: radial-gradient(circle, rgba(225, 40, 40, .9) 0%, rgba(225, 40, 40, .45) 42%, transparent 72%); }
+.sq.tgt::before { content: ""; position: absolute; inset: 37%; border-radius: 50%; background: var(--dot); z-index: 1; }
+.sq.tgt.cap::before { inset: 5%; background: transparent; border: 0.75cqw solid var(--dot); }
+.co { position: absolute; font-family: var(--f-mono); font-weight: 500; font-size: 2.1cqw; line-height: 1; pointer-events: none; z-index: 1; }
+.co.r { top: 5%; left: 6%; }
+.co.f { bottom: 5%; right: 7%; }
+.sq.l .co { color: var(--sq-dark); }
+.sq.d .co { color: var(--sq-light); }
+.pc { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-piece); font-size: 40px; font-size: 10.4cqw; line-height: 1; pointer-events: none; z-index: 2; filter: drop-shadow(0 0.25cqw 0.15cqw rgba(0, 0, 0, .22)); }
+.pc::before, .pc::after { grid-area: 1 / 1; }
+.pc.c-w::before { color: var(--wp-fill); }
+.pc.c-w::after { color: var(--wp-line); }
+.pc.c-b::before { color: var(--bp-fill); }
+.pc.c-b::after { color: var(--bp-line); }
+.pc.t-k::before { content: "\265A\FE0E"; } .pc.t-k::after { content: "\2654\FE0E"; }
+.pc.t-q::before { content: "\265B\FE0E"; } .pc.t-q::after { content: "\2655\FE0E"; }
+.pc.t-r::before { content: "\265C\FE0E"; } .pc.t-r::after { content: "\2656\FE0E"; }
+.pc.t-b::before { content: "\265D\FE0E"; } .pc.t-b::after { content: "\2657\FE0E"; }
+.pc.t-n::before { content: "\265E\FE0E"; } .pc.t-n::after { content: "\2658\FE0E"; }
+.pc.t-p::before { content: "\265F\FE0E"; } .pc.t-p::after { content: "\2659\FE0E"; }
+.pc.dragging { z-index: 30; filter: drop-shadow(0 1.2cqw 1cqw rgba(0, 0, 0, .3)); }
+#arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+.ar-l { stroke: var(--arrow); stroke-width: .17; stroke-linecap: round; fill: none; }
+.ar-h { fill: var(--arrow); }
+.board-meta { width: min(100%, 640px); display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+
+.coach { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.coach-head { display: flex; flex-direction: column; gap: 6px; }
+.crumb { font-size: 13px; color: var(--muted); text-decoration: none; }
+.crumb:hover { color: var(--ink); }
+.coach-title { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: 25px; line-height: 1.1; text-wrap: balance; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink); white-space: nowrap; }
+.chip.side-w { background: #f4f2ec; color: #1a1d22; box-shadow: inset 0 0 0 1px #c9c4b6; }
+.chip.side-b { background: #1d2129; color: #eef0f3; }
+.line-label { font-size: 13px; color: var(--muted); }
+.line-label b { color: var(--ink); font-weight: 600; }
+.status { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); }
+.st-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; background: var(--muted); }
+.st-t { font-family: var(--f-display); font-weight: 800; font-size: 19px; line-height: 1.25; }
+.st-s { font-size: 14px; color: var(--muted); }
+.status.good { background: var(--good-soft); } .status.good .st-dot { background: var(--good); }
+.status.bad { background: var(--bad-soft); } .status.bad .st-dot { background: var(--bad); }
+.status.teach, .status.shown { background: var(--accent-soft); } .status.teach .st-dot, .status.shown .st-dot { background: var(--accent); }
+.status.turn .st-dot { background: var(--ink); }
+.status.wait .st-dot { animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+.feed { display: flex; flex-direction: column; gap: 10px; min-height: 64px; }
+.fe { display: flex; flex-direction: column; gap: 2px; }
+.fe-h { font-size: 13px; color: var(--muted); }
+.fe-h .mv { font-family: var(--f-mono); font-weight: 500; color: var(--accent); font-size: 13.5px; }
+.fe p { margin: 0; font-size: 14.5px; }
+.fe.preview { padding-left: 10px; border-left: 2px solid var(--accent); }
+.moves { font-family: var(--f-mono); font-size: 13.5px; background: var(--surface-2); border-radius: 8px; padding: 10px 12px; min-height: 42px; line-height: 1.9; display: flex; flex-wrap: wrap; column-gap: 12px; }
+.moves .pair { white-space: nowrap; }
+.moves .num { color: var(--muted); margin-right: 3px; }
+.moves .cur { background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: 1px 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions .grow { margin-left: auto; }
+.toggle { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--muted); cursor: pointer; }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+.sess { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px; font: 600 14px var(--f-body); color: var(--muted); cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tabpane { max-height: 380px; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+.ln { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.ln:last-child { border-bottom: 0; }
+.ln.now .ln-name::after { content: "  · now"; color: var(--accent); font-weight: 500; }
+.ln-name { font-weight: 600; font-size: 14px; }
+.ln-seq { grid-column: 1 / -1; font-family: var(--f-mono); font-size: 12px; color: var(--muted); line-height: 1.6; }
+.ln-side { display: flex; align-items: center; gap: 8px; }
+.dots3 { display: flex; gap: 3px; }
+.dots3 i { width: 7px; height: 7px; border-radius: 50%; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.dots3 i.on { background: var(--accent); box-shadow: none; }
+.dots3.full i { background: var(--good); box-shadow: none; }
+.mini { font: 600 12.5px var(--f-body); padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.mini:hover { border-color: var(--accent); }
+.ideas { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; }
+.pane-foot { position: sticky; bottom: 0; background: var(--surface); padding-block: 10px 4px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
+.err { padding: 16px; margin: 24px 0; border-radius: 10px; background: var(--bad-soft); color: var(--ink); }
+.check-note { font-size: 12.5px; color: var(--bad); }
+@media (prefers-reduced-motion: reduce) { .status.wait .st-dot { animation: none; } }
+
+/* v3: tree trainer additions */
+:root { --threat: rgba(196, 52, 52, .85); --focus: rgba(40, 120, 220, .9); }
+.th-l { stroke: var(--threat); stroke-width: .07; stroke-dasharray: .16 .1; stroke-linecap: round; fill: none; }
+.th-h { fill: var(--threat); }
+.fo-c { fill: none; stroke: var(--focus); stroke-width: .07; }
+.evalbar { width: min(100%, 640px); display: flex; flex-direction: column; gap: 4px; }
+.evaltrack { height: 8px; border-radius: 999px; background: var(--bp-fill); overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); }
+.evalfill { height: 100%; background: var(--wp-fill); transition: width .3s ease; box-shadow: inset 0 0 0 1px var(--line); }
+.evaltrack.flip { background: var(--wp-fill); }
+.evaltrack.flip .evalfill { background: var(--bp-fill); }
+.evaltxt { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.legend { width: min(100%, 640px); display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+.legend i { display: inline-block; width: 14px; height: 0; border-top: 2px dashed var(--threat); vertical-align: middle; margin-right: 5px; }
+.legend b { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--focus); vertical-align: middle; margin-right: 5px; }
+.tagchip { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: 1px; background: var(--surface-2); color: var(--muted); }
+.tagchip.best, .tagchip.top { background: var(--good-soft); color: var(--good); }
+.tagchip.mistake { background: var(--bad-soft); color: var(--bad); }
+.tagchip.inaccuracy { background: var(--accent-soft); color: var(--accent); }
+.bar { height: 6px; border-radius: 999px; background: var(--surface-2); overflow: hidden; width: 150px; max-width: 100%; display: flex; }
+.bar .k { background: var(--good); } .bar .s { background: var(--accent); opacity: .55; }
+.ln-chip { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.ln-chip.known { background: var(--good-soft); color: var(--good); }
+.ln-chip.learning { background: var(--accent-soft); color: var(--accent); }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 0 4px; }
+.filters .mini[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+</style>
+
+<div id="app"><div class="wrap"><p class="muted" style="padding-block:40px">Loading the board…</p></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script>
+/* ------------------------------------------------------------------
+   Hand-written seed lines. Each line is a sequence of moves in standard
+   notation; text in {braces} explains the move right before it.
+   "side" is the side YOU play. builder\build.ps1 reads these lines and
+   grows the full engine-checked trees into trees.json (published next
+   to this page). If trees.json can't load, the page falls back to these.
+   Keep the  id: "..", name: "..", side: ".."  and
+   { name: "..", pgn: `..` }  formats: the builder parses them.
+------------------------------------------------------------------- */
+const OPENINGS = [
+{
+  id: "italian", name: "Italian Game", side: "w", eco: "C50–C54", seq: "1.e4 e5 2.Nf3 Nc6 3.Bc4",
+  blurb: "Quick development, a bishop aimed at f7, then a slow, solid build-up with c3 and d3.",
+  plan: [
+    "Bc4 aims at f7, the square only Black's king defends.",
+    "c3 and d3 make a solid center and prepare a later d4.",
+    "Castle, play Re1, then bring the last knight over with Nbd2–f1–g3.",
+    "Never grab with Nxe5 when Black has just played ...Nd4. That is a trap."
+  ],
+  lines: [
+    { name: "Giuoco Pianissimo: main line", pgn: `e4 {Take the center and open lines for your queen and bishop.} e5 Nf3 {Develop and attack e5 right away.} Nc6 {Black defends e5.} Bc4 {The Italian bishop. It aims at f7, Black's weakest square.} Bc5 {Giuoco Piano. Black copies you.} c3 {Prepares a later d4 push.} Nf6 {Black attacks e4.} d3 {Calm. Protects e4 and keeps your position solid.} d6 O-O {King safety first.} O-O Re1 {Supports e4 and frees f1 for the knight's trip Nbd2–f1–g3.} a6 {Black makes room for ...Ba7 and eyes ...b5.} a4 {Stops ...b5 from chasing your bishop.} Ba7 h3 {Takes g4 away from Black's bishop. Next: Nbd2–f1–g3.}` },
+    { name: "Giuoco Pianissimo: Black castles first", pgn: `e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 O-O {Black castles before playing ...d6.} O-O d6 Re1 {Same setup as the main line. Next: a4, h3 and Nbd2–f1–g3.}` },
+    { name: "Giuoco Pianissimo: Black strikes with ...d5", pgn: `e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d5 {Black hits your bishop and e4 at the same time.} exd5 {Take. Otherwise ...dxc4 or ...dxe4 gives Black the center.} Nxd5 O-O {Castle. Black's knight on d5 and pawn on e5 are now targets.} O-O Re1 {Hits e5. Black has to spend time defending it.}` },
+    { name: "Two Knights: the calm 4.d3", pgn: `e4 e5 Nf3 Nc6 Bc4 Nf6 {Two Knights Defense. Black attacks e4 instead of copying you.} d3 {Protect e4 calmly. You skip the wild 4.Ng5 lines.} Be7 O-O O-O Re1 {Supports e4 and frees f1 for the knight.} d6 c3 {Prepares d4 later. Same slow plan as the Giuoco Piano.}` },
+    { name: "Two Knights: ...Bc5", pgn: `e4 e5 Nf3 Nc6 Bc4 Nf6 d3 Bc5 {Black heads for a Giuoco Piano setup.} c3 {Same plan: c3 prepares d4.} d6 O-O O-O Re1 {You reached the Giuoco Pianissimo by a different move order.}` },
+    { name: "Hungarian Defense: ...exd4", pgn: `e4 e5 Nf3 Nc6 Bc4 Be7 {Hungarian Defense. Solid but passive.} d4 {Black is passive, so grab the center at once.} exd4 Nxd4 {Take back with the knight. You have more space.} Nf6 Nc3 O-O O-O {Easy development and more space for you.}` },
+    { name: "Hungarian Defense: ...d6", pgn: `e4 e5 Nf3 Nc6 Bc4 Be7 d4 d6 {Black holds e5.} Nc3 {Develop and keep the tension.} Nf6 h3 {Takes g4 away from Black's bishop, so ...Bg4 can't pin your knight.} O-O O-O {Safe king and more space.}` },
+    { name: "Trap: 3...Nd4", pgn: `e4 e5 Nf3 Nc6 Bc4 Nd4 {A trap. If 4.Nxe5?? Qg5! hits your knight and g2, and Black wins.} Nxd4 {Just trade knights.} exd4 O-O {Castle. Black wasted time and has a loose pawn on d4. Next: c3 to open lines.}` }
+  ]
+},
+{
+  id: "ruy-lopez", name: "Ruy Lopez", side: "w", eco: "C60–C99", seq: "1.e4 e5 2.Nf3 Nc6 3.Bb5",
+  blurb: "Pressure the knight that defends e5, castle early and build a big center with c3 and d4.",
+  plan: [
+    "Bb5 pressures the c6 knight, the piece that defends e5.",
+    "When Black kicks the bishop with ...a6 and ...b5, drop it back to a4 and then b3. It keeps aiming at f7.",
+    "Castle, Re1, c3 and h3, then push d4.",
+    "Against ...d6 early, play c3 before d4 to avoid the Noah's Ark trap."
+  ],
+  lines: [
+    { name: "Closed Ruy Lopez: main line", pgn: `e4 e5 Nf3 Nc6 Bb5 {The Ruy Lopez. You pressure the knight that defends e5.} a6 {Morphy Defense. Black asks the bishop what it wants.} Ba4 {Keep the bishop and the pressure.} Nf6 O-O {Castle. e4 looks loose, but if ...Nxe4 you win it back with d4 or Re1.} Be7 Re1 {Now e4 is safe, and Bxc6 followed by Nxe5 is a real threat.} b5 {Black kicks the bishop.} Bb3 {The bishop still aims at f7.} d6 c3 {Prepares d4 and gives the bishop a retreat on c2.} O-O h3 {Stops ...Bg4. Next: d4 with a big center.}` },
+    { name: "Closed: 7...O-O, sidestep the Marshall", pgn: `e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 O-O {Black castles and hints at the Marshall Gambit (8.c3 d5!?).} h3 {Avoids the sharpest Marshall lines. After ...d6 you play c3 and reach the main line.} d6 c3 {Back in the main line. Next: d4.}` },
+    { name: "Open Ruy Lopez: 5...Nxe4", pgn: `e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Nxe4 {The Open Ruy Lopez. Black takes the pawn.} d4 {Open the center while Black's king is still in the middle.} b5 Bb3 d5 {Black gives the pawn back to keep the knight on e4.} dxe5 Be6 c3 {Gives your bishop a home on c2 and supports the center. Next: Nbd2 to challenge the e4 knight.}` },
+    { name: "Steinitz Deferred: 4...d6", pgn: `e4 e5 Nf3 Nc6 Bb5 a6 Ba4 d6 {Black holds e5 with a pawn.} c3 {Prepares d4. Avoid 5.d4?! b5 6.Bb3 Nxd4, which can lead to the Noah's Ark trap where ...c5 and ...c4 trap your bishop.} Bd7 d4 {Now take the center.} Nf6 O-O {Castle. Next: Re1 and Nbd2.}` },
+    { name: "Berlin Defense: the 4.d3 system", pgn: `e4 e5 Nf3 Nc6 Bb5 Nf6 {Berlin Defense. Black attacks e4 at once.} d3 {Protect e4 and skip the famous Berlin endgame.} Bc5 c3 {Prepares d4, which would hit the bishop on c5.} O-O O-O d6 h3 {Stops ...Bg4. Next: Nbd2, Re1 and a slow build-up.}` },
+    { name: "Berlin Defense: ...d6", pgn: `e4 e5 Nf3 Nc6 Bb5 Nf6 d3 d6 {Black holds e5 with a pawn.} O-O Be7 c3 O-O Re1 {Same plan: c3, Re1, Nbd2–f1–g3, then d4 when ready.}` },
+    { name: "Classical Defense: 3...Bc5", pgn: `e4 e5 Nf3 Nc6 Bb5 Bc5 {Classical Defense. The bishop eyes f2.} c3 {Prepares d4, which will hit the bishop.} Nf6 O-O O-O d4 {Take the center with tempo.} Bb6 Re1 {Protects e4 and keeps your center strong.}` },
+    { name: "Schliemann Gambit: 3...f5", pgn: `e4 e5 Nf3 Nc6 Bb5 f5 {Schliemann Gambit. Black attacks e4 with a pawn.} d3 {Calm and safe. Keep the center solid.} fxe4 dxe4 Nf6 Nc3 {Protect e4.} Bc5 O-O {Castle. Black's kingside is loose after ...f5.}` }
+  ]
+},
+{
+  id: "scotch", name: "Scotch Game", side: "w", eco: "C44–C45", seq: "1.e4 e5 2.Nf3 Nc6 3.d4",
+  blurb: "Open the center on move three and play with free, active pieces.",
+  plan: [
+    "3.d4 opens the center before Black is ready.",
+    "After 3...exd4 4.Nxd4 your knight sits in the middle. Watch for ...Bc5 and ...Qf6 ganging up on it.",
+    "Defend with Be3 and c3, then develop Bc4 or Bd3 and castle.",
+    "Against ...Nf6, trade on c6 and push e5 to gain space."
+  ],
+  lines: [
+    { name: "Classical: 4...Bc5", pgn: `e4 e5 Nf3 Nc6 d4 {The Scotch. Open the center right away.} exd4 Nxd4 {Your knight now sits in the middle of the board.} Bc5 {Black hits your knight.} Be3 {Defend the knight with a developing move.} Qf6 {Black piles up on d4.} c3 {Now a pawn defends the knight too.} Nge7 Bc4 {Develop and aim at f7.} O-O O-O {Both kings are safe. You have a free, open game.}` },
+    { name: "Mieses: 4...Nf6 5.Nxc6 bxc6", pgn: `e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Nf6 {Black attacks e4.} Nxc6 {Mieses Variation. Trade first.} bxc6 {Black takes toward the center.} e5 {Kick the knight off f6.} Qe7 {Black pins your e5 pawn to the king.} Qe2 {Unpin with the queen.} Nd5 c4 {Kick the knight again and gain space.} Ba6 {The bishop pins your c4 pawn to the queen.} b3 {Protects c4 so it won't fall.}` },
+    { name: "Mieses: 8...Nb6", pgn: `e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Nf6 Nxc6 bxc6 e5 Qe7 Qe2 Nd5 c4 Nb6 {The knight retreats to b6.} Nd2 {Develop and protect c4. Your pawns on c4 and e5 give you space.}` },
+    { name: "4...Nf6 5.Nxc6 dxc6", pgn: `e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Nf6 Nxc6 dxc6 {Black takes away from the center to open lines.} Qxd8+ {Trade queens. Black's king loses the right to castle.} Kxd8 Nc3 {Protects e4. Next: Bf4 or Bg5 and long castling.}` },
+    { name: "Steinitz: 4...Qh4", pgn: `e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Qh4 {Steinitz Variation. The queen hits e4 and f2.} Nb5 {Counterattack. You threaten Nxc7+ forking king and rook.} Bb4+ Bd2 Qxe4+ Be2 {Block the check. You give a pawn for fast development.} Kd8 {Black has to guard c7.} O-O {Castle. Black's king is stuck in the center and you are ahead in development.}` },
+    { name: "4...Nxd4", pgn: `e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Nxd4 {Black trades knights.} Qxd4 {Your queen sits in the center and is hard to chase away.} Nf6 Nc3 {Protect e4 and develop.} Be7 Bg5 O-O O-O-O {Long castle. Your rook joins the d-file at once.}` }
+  ]
+},
+{
+  id: "queens-gambit", name: "Queen's Gambit", side: "w", eco: "D06–D69", seq: "1.d4 d5 2.c4",
+  blurb: "Offer the c-pawn to pull Black's d-pawn away from the center. It is not a real gambit: you get it back.",
+  plan: [
+    "2.c4 attacks d5 and fights for the center.",
+    "If Black takes on c4, don't chase the pawn. Play Nf3 and e3, then win it back with Bxc4.",
+    "Against ...e6, pin the f6 knight with Bg5 and build with e3 and Nf3.",
+    "Watch for the Elephant Trap after ...Nbd7: don't grab on d5 with your knight."
+  ],
+  lines: [
+    { name: "Queen's Gambit Declined: main line", pgn: `d4 {Take the center with the queen's pawn.} d5 c4 {The Queen's Gambit. You offer a pawn to pull Black's d-pawn away from the center.} e6 {Queen's Gambit Declined. Black holds d5.} Nc3 {More pressure on d5.} Nf6 Bg5 {Pin the knight that defends d5.} Be7 {Black blocks the pin.} e3 {Open the way for your light-squared bishop.} O-O Nf3 h6 {Black asks the bishop to decide.} Bh4 {Keep the pin. Next: Be2 or Bd3, Rc1 and castle.}` },
+    { name: "QGD: Elephant Trap and Cambridge Springs", pgn: `d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 {Careful. This sets the Elephant Trap.} e3 {Don't grab: cxd5 exd5 Nxd5?? Nxd5! Bxd8 Bb4+ and Black comes out a piece up.} c6 Nf3 Qa5 {Cambridge Springs. The queen pins your c3 knight and eyes g5.} Nd2 {The standard answer. It covers c4 and e4. Next: Qc2 and Be2.}` },
+    { name: "Queen's Gambit Accepted", pgn: `d4 d5 c4 dxc4 {Queen's Gambit Accepted. Black takes the pawn.} Nf3 {Stop ...e5 first. Don't rush to win the pawn back.} Nf6 e3 {Open the bishop's path to c4.} e6 Bxc4 {Pawn back, and your bishop is active.} c5 O-O {Castle.} a6 a4 {Stops ...b5 from chasing your bishop.}` },
+    { name: "QGA: Black tries to keep the pawn", pgn: `d4 d5 c4 dxc4 Nf3 b5 {Black tries to hold on to the extra pawn.} a4 {Attack the pawn chain at its base.} c6 e3 {Open the bishop. Next: axb5 and b3. Black can't keep the pawn.}` },
+    { name: "Slav Defense", pgn: `d4 d5 c4 c6 {Slav Defense. Black holds d5 and keeps the c8 bishop free.} Nf3 Nf6 Nc3 dxc4 {Black takes now that c6 supports ...b5.} a4 {Stops ...b5, so Black can't hold the pawn.} Bf5 e3 e6 Bxc4 {Pawn back.} Bb4 O-O {Castle. Next: Qe2 and, later, e4.}` },
+    { name: "Semi-Slav: Meran", pgn: `d4 d5 c4 c6 Nf3 Nf6 Nc3 e6 {Semi-Slav. A solid wall of pawns.} e3 {Calm. Support d4 and open your bishop.} Nbd7 Bd3 dxc4 Bxc4 {Take back.} b5 {Black kicks the bishop.} Bd3 {Back to a good diagonal. Next: O-O and e4.}` },
+    { name: "Albin Countergambit", pgn: `d4 d5 c4 e5 {Albin Countergambit. Black gives a pawn for quick play.} dxe5 {Take it.} d4 {Black's pawn cramps you.} Nf3 {Develop. Avoid 4.e3?: after ...Bb4+ 5.Bd2 dxe3 6.Bxb4?? exf2+ 7.Ke2 fxg1=N+ is the famous Lasker Trap.} Nc6 g3 {Fianchetto. The bishop will hit Black's queenside from g2.} Be6 Nbd2 {Develop. The knight can go to b3 to attack d4.} Qd7 Bg2 {Next: O-O, then a3 and b4 on the queenside.}` },
+    { name: "Chigorin Defense", pgn: `d4 d5 c4 Nc6 {Chigorin Defense. Black develops instead of defending d5.} Nf3 Bg4 cxd5 {Take on d5 first.} Bxf3 gxf3 {Take back toward the center. You keep the bishop pair.} Qxd5 e3 {Solid. Your center is safe.} e5 Nc3 {Develop and hit the queen.}` }
+  ]
+},
+{
+  id: "london", name: "London System", side: "w", eco: "D02 · A48", seq: "1.d4 2.Bf4",
+  blurb: "One setup against almost anything: d4, Bf4, e3, Nf3, c3, Bd3, Nbd2.",
+  plan: [
+    "Get the dark-squared bishop out to f4 before e3 locks it in.",
+    "Build the same pyramid: pawns d4, e3, c3; pieces Nf3, Nbd2, Bd3.",
+    "If Black plays ...Qb6 to hit b2, answer with Qb3 to offer a trade.",
+    "Against ...Nh5 ideas, play h3 so your bishop can drop back to h2."
+  ],
+  lines: [
+    { name: "vs ...d5, ...e6 and ...c5", pgn: `d4 d5 Bf4 {The London. Bishop out before e3 locks it in.} Nf6 e3 {Solid. Opens your other bishop.} e6 Nf3 c5 {Black hits d4.} c3 {Support d4. Your pawn triangle is set.} Nc6 Nbd2 {The knight backs up e4 and keeps c3 free for the pawn.} Bd6 Bg3 {Keep your good bishop. If Black trades, your h-file opens.} O-O Bd3 {Aim at Black's king. Next: O-O, then Ne5 or e4.}` },
+    { name: "vs early ...c5 and ...Qb6", pgn: `d4 d5 Bf4 c5 {Black attacks your center early.} e3 Nc6 c3 {Hold d4 with a pawn.} Qb6 {Black hits b2.} Qb3 {Offer the trade. If ...Qxb3 axb3, your rook gets the a-file.} c4 {Black kicks your queen.} Qc2 {Step back. Next: Nf3, Nbd2, then b3 or e4 to attack Black's pawn chain.}` },
+    { name: "vs ...d5 and ...Bf5", pgn: `d4 d5 Bf4 Bf5 {Black copies you.} e3 e6 Bd3 {Offer to trade off Black's good bishop.} Bxd3 Qxd3 Nf6 Nf3 c5 c3 {Same structure as always. Next: Nbd2 and O-O.}` },
+    { name: "vs King's Indian setup", pgn: `d4 Nf6 Bf4 g6 {Black goes for a King's Indian setup.} e3 Bg7 Nf3 O-O Be2 {Modest but safe. You castle next.} d6 h3 {Gives the bishop a retreat on h2, so ...Nh5 doesn't win it.}` },
+    { name: "vs ...Nf6 and ...c5 gambit", pgn: `d4 Nf6 Bf4 c5 {Black hits d4 at once.} e3 {Keep it simple.} Qb6 {Black hits b2.} Nc3 {A sharp answer. If ...Qxb2, Nb5 is very strong.} Qxb2 Nb5 {Threat: Nc7+ forking king and rook. Black's queen is also short of squares.}` },
+    { name: "vs ...Nf6, ...d5 and ...Qb6", pgn: `d4 Nf6 Bf4 d5 e3 c5 c3 Nc6 Nd2 {Develop. You keep f3 for the other knight.} Qb6 Qb3 {Offer the trade. ...Qxb3 axb3 opens your a-file.} c4 Qc2 {Same idea as before. Next: Ngf3, then b3 or e4.}` }
+  ]
+},
+{
+  id: "sicilian", name: "Sicilian Defense", side: "b", eco: "B20–B99", seq: "1.e4 c5",
+  blurb: "Fight for d4 from the side and get an unbalanced game. Najdorf setup against the Open Sicilian.",
+  plan: [
+    "1...c5 fights for d4 without copying White.",
+    "After 3.d4 cxd4 you trade a side pawn for a center pawn.",
+    "Najdorf ...a6 keeps White's pieces off b5 and prepares ...e5 or ...e6 and ...b5.",
+    "Your long-term trump is the half-open c-file. Rooks and queen often go there."
+  ],
+  lines: [
+    { name: "Najdorf: 6.Be2", pgn: `e4 c5 {The Sicilian. Fight for d4 from the side.} Nf3 d6 {Control e5 and prepare ...Nf6.} d4 cxd4 {Trade a side pawn for a center pawn.} Nxd4 Nf6 {Hit e4 so White must defend it.} Nc3 a6 {The Najdorf. Keep White's pieces off b5 and prepare ...e5 or ...b5.} Be2 e5 {Kick the knight and grab central space. Keep an eye on the d5 square.} Nb3 Be7 {Develop and get ready to castle.} O-O O-O {Next: ...Be6 and ...Nbd7, or ...b5 on the queenside.}` },
+    { name: "Najdorf: 6.Be3 English Attack", pgn: `e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Be3 {English Attack. White plans f3, Qd2 and a pawn storm.} e5 Nb3 Be6 {Control d5.} f3 Be7 Qd2 O-O O-O-O Nbd7 {Opposite castling. Race on your side with ...b5 and ...Rc8.}` },
+    { name: "Najdorf: 6.Bg5", pgn: `e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bg5 {The sharpest line. White pins your knight.} e6 {Solid. Covers d5 and opens your bishop.} f4 Be7 Qf3 Qc7 {Covers e5 and eyes the c-file.} O-O-O Nbd7 {Next: ...b5. Both sides race.}` },
+    { name: "Najdorf: 6.Bc4", pgn: `e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bc4 {White aims at e6 and f7.} e6 {Blunt the bishop.} Bb3 b5 {Gain space and threaten ...b4.} O-O Be7 {Next: ...Qc7 and castle. Watch for sacrifices on e6.}` },
+    { name: "Open: 4.Qxd4", pgn: `e4 c5 Nf3 d6 d4 cxd4 Qxd4 {White takes back with the queen.} Nc6 {Develop and hit the queen.} Bb5 Bd7 {Block the pin.} Bxc6 Bxc6 {Your bishop pair is a long-term plus.} Nc3 Nf6 {Next: ...e6 and ...Be7.}` },
+    { name: "Moscow: 3.Bb5+", pgn: `e4 c5 Nf3 d6 Bb5+ {Moscow Variation. White wants to trade pieces.} Bd7 {Block and offer a trade.} Bxd7+ Qxd7 O-O Nc6 c3 Nf6 {Hit e4.} Re1 e6 {Solid. Next: ...Be7 and castle, with ...d5 if White pushes d4.}` },
+    { name: "Alapin: 2.c3 3.exd5", pgn: `e4 c5 c3 {Alapin. White wants d4 with a pawn.} d5 {Hit the center before d4 arrives.} exd5 Qxd5 {Your queen is safe here: the c3 pawn takes away White's Nc3.} d4 Nf6 Nf3 Bg4 {Pin, and add pressure to d4.} Be2 e6 {Solid. Next: ...Nc6 and ...cxd4.}` },
+    { name: "Alapin: 3.e5", pgn: `e4 c5 c3 d5 e5 {White closes the center.} Bf5 {Develop the bishop before ...e6 locks it in.} d4 e6 {A good French Defense for you. Next: ...Nc6 and ...Qb6.}` },
+    { name: "Closed Sicilian: 3.g3", pgn: `e4 c5 Nc3 {The Closed Sicilian.} Nc6 g3 g6 {Mirror White and fianchetto.} Bg2 Bg7 d3 d6 {Next: ...e6 or ...e5, ...Nge7 and castle, then ...Rb8 and ...b5.}` },
+    { name: "Grand Prix: 3.f4", pgn: `e4 c5 Nc3 Nc6 f4 {Grand Prix Attack. White wants a kingside attack.} g6 Nf3 Bg7 Bb5 {White eyes your c6 knight.} Nd4 {Hit the bishop and the f3 knight at once.}` },
+    { name: "Smith-Morra Gambit", pgn: `e4 c5 d4 cxd4 c3 {Smith-Morra Gambit. White offers a pawn for fast development.} dxc3 {Take it.} Nxc3 Nc6 Nf3 d6 Bc4 e6 {Blunt the bishop's aim at f7.} O-O Nf6 {Next: ...Be7 and castle. Watch for Nd5 and e5 tricks.}` }
+  ]
+},
+{
+  id: "french", name: "French Defense", side: "b", eco: "C00–C19", seq: "1.e4 e6",
+  blurb: "A solid pawn chain that challenges e4, then counterattack the base with ...c5.",
+  plan: [
+    "1...e6 and 2...d5 challenge e4 at once.",
+    "When White pushes e5, hit the base of the chain with ...c5, then pile on d4 with ...Nc6 and ...Qb6.",
+    "Use ...f6 to attack the head of the chain.",
+    "In the Advance, after Bd3 never take ...Nxd4 too early: Bb5+ wins your queen."
+  ],
+  lines: [
+    { name: "Advance: 6.a3", pgn: `e4 e6 {The French Defense.} d4 d5 {Challenge e4.} e5 {Advance Variation. White grabs space.} c5 {Hit the base of White's chain right away.} c3 Nc6 {More pressure on d4.} Nf3 Qb6 {Now three of your pieces hit d4.} a3 {White plans b4.} c4 {Close the queenside. Now b4 can be met by ...cxb3 en passant.} Nbd2 Na5 {Watch the b3 square. Next: ...Bd7 and ...Ne7.}` },
+    { name: "Advance: 6.Bd3, the queen trap", pgn: `e4 e6 d4 d5 e5 c5 c3 Nc6 Nf3 Qb6 Bd3 {White offers d4 as bait.} cxd4 cxd4 Bd7 {Not 7...Nxd4?? 8.Nxd4 Qxd4 9.Bb5+ and White wins your queen.} O-O {Milner-Barry Gambit.} Nxd4 {Now it's safe: your d7 bishop covers b5.} Nxd4 Qxd4 Nc3 a6 {Stop Nb5. Next: ...Ne7 and ...Nc6.}` },
+    { name: "Advance: 6.Be2", pgn: `e4 e6 d4 d5 e5 c5 c3 Nc6 Nf3 Qb6 Be2 {Quiet development.} cxd4 cxd4 Nh6 {The knight heads for f5 to hit d4.} Nc3 Nf5 {Next: ...Bb4 and castle, keeping pressure on d4.}` },
+    { name: "Classical: 4.e5 Steinitz", pgn: `e4 e6 d4 d5 Nc3 {White defends e4 with the knight.} Nf6 {Classical French. Attack e4 again.} e5 {Steinitz Variation. Kick your knight.} Nfd7 f4 {White builds a big center.} c5 {Strike the base.} Nf3 Nc6 Be3 cxd4 Nxd4 Bc5 {Hit the d4 knight.} Qd2 O-O {Next: ...a6 and ...Qb6, or ...f6 to break the center.}` },
+    { name: "Classical: 4.Bg5", pgn: `e4 e6 d4 d5 Nc3 Nf6 Bg5 {White pins your knight.} Be7 {Unpin. Simple and solid.} e5 Nfd7 Bxe7 Qxe7 f4 O-O Nf3 c5 {Strike the base of the chain. Next: ...Nc6 and ...f6.}` },
+    { name: "Tarrasch: 3.Nd2", pgn: `e4 e6 d4 d5 Nd2 {Tarrasch. The knight avoids a pin on c3.} Nf6 e5 Nfd7 Bd3 c5 c3 Nc6 Ne2 cxd4 cxd4 f6 {Break the chain from the front. Next: ...fxe5 and ...Qb6.}` },
+    { name: "Exchange: 4.Nf3", pgn: `e4 e6 d4 d5 exd5 {Exchange Variation. Symmetrical and calm.} exd5 {Your light-squared bishop is free now.} Nf3 Nf6 Bd3 Bd6 O-O O-O {Next: ...Bg4, ...Nc6 or ...Re8.}` },
+    { name: "Exchange: 4.Bd3", pgn: `e4 e6 d4 d5 exd5 exd5 Bd3 Bd6 {Mirror White.} Nf3 Nf6 O-O O-O {Same position as the other Exchange line.}` },
+    { name: "King's Indian Attack: 2.d3", pgn: `e4 e6 d3 {King's Indian Attack. White skips the big center.} d5 Nd2 Nf6 Ngf3 c5 {Take space on the queenside.} g3 Nc6 Bg2 Be7 O-O O-O {Next: ...b5 and a queenside pawn storm while White plays on the kingside.}` }
+  ]
+},
+{
+  id: "caro-kann", name: "Caro-Kann Defense", side: "b", eco: "B10–B19", seq: "1.e4 c6",
+  blurb: "Rock-solid: support ...d5 with ...c6 and get the light-squared bishop out before ...e6.",
+  plan: [
+    "1...c6 and 2...d5 challenge e4 with no weaknesses.",
+    "Develop the light-squared bishop (...Bf5 or ...Bg4) before ...e6, so it isn't locked in.",
+    "Against the Advance, hit d4 with ...c5 and ...Nc6.",
+    "You often reach a good endgame. Break later with ...c5 or ...e5."
+  ],
+  lines: [
+    { name: "Classical: 6.h4", pgn: `e4 c6 {The Caro-Kann.} d4 d5 Nc3 dxe4 Nxe4 Bf5 {Classical. Bishop out before ...e6.} Ng3 {Hits your bishop.} Bg6 h4 {White wants h5 to chase your bishop.} h6 {Stops the h-pawn. Your bishop can drop back to h7.} Nf3 Nd7 h5 Bh7 Bd3 Bxd3 {Trade off White's best bishop.} Qxd3 e6 {Solid. Next: ...Ngf6, ...Qc7 or ...Be7, and castle.}` },
+    { name: "Classical: 6.Nf3", pgn: `e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 Nf3 Nd7 {Stops Ne5, which would hit your bishop.} Bd3 Bxd3 Qxd3 e6 O-O Ngf6 {Rock solid. Next: ...Be7 and castle.}` },
+    { name: "Classical via 3.Nd2", pgn: `e4 c6 d4 d5 Nd2 {Same idea as 3.Nc3.} dxe4 Nxe4 Bf5 Ng3 Bg6 {Same plan as the Classical.}` },
+    { name: "Advance: 4.Nf3", pgn: `e4 c6 d4 d5 e5 {Advance Variation.} Bf5 {Bishop out before ...e6 locks it in.} Nf3 e6 Be2 Nd7 O-O Ne7 {Next: ...h6, ...Ng6 or ...c5.}` },
+    { name: "Advance: 4.Nc3 and g4", pgn: `e4 c6 d4 d5 e5 Bf5 Nc3 e6 g4 {White kicks your bishop with pawns.} Bg6 Nge2 c5 {Hit d4 right away.} h4 h5 {Stop the h-pawn from going further.} Nf4 Bh7 {Keep the bishop. Next: ...Nc6 and ...cxd4.}` },
+    { name: "Advance: 4.h4", pgn: `e4 c6 d4 d5 e5 Bf5 h4 {White wants to chase your bishop with g4 and h5.} h5 {Stop it. Now g4 can be met by ...hxg4.} c4 e6 {Solid. Next: ...Ne7 and ...Nd7.}` },
+    { name: "Advance: 4.Bd3", pgn: `e4 c6 d4 d5 e5 Bf5 Bd3 {White offers a bishop trade.} Bxd3 Qxd3 e6 {Solid.} Nf3 Qb6 {Hit b2 and d4. Next: ...Qa6 to trade queens.}` },
+    { name: "Exchange: 3.exd5", pgn: `e4 c6 d4 d5 exd5 cxd5 {Exchange Variation.} Bd3 Nc6 c3 Nf6 Bf4 Bg4 {Develop the bishop before ...e6.} Qb3 {White hits b7.} Qd7 {Defend b7. Next: ...e6 and ...Bd6 to trade White's good bishop.}` },
+    { name: "Panov Attack: 4.c4", pgn: `e4 c6 d4 d5 exd5 cxd5 c4 {Panov Attack. White plays for an open game.} Nf6 Nc3 e6 Nf3 Be7 cxd5 Nxd5 {Blockade in front of White's isolated pawn.} Bd3 Nc6 O-O O-O {White has an isolated d-pawn. Trade pieces and attack it.}` },
+    { name: "Two Knights: 2.Nc3 3.Nf3", pgn: `e4 c6 Nc3 d5 Nf3 {Two Knights Variation.} Bg4 {Pin the knight.} h3 Bxf3 Qxf3 e6 {Solid. Your pawns on light squares blunt White's bishop.} d3 Nf6 {Next: ...Bb4 or ...Bc5, ...Nbd7 and castle.}` },
+    { name: "2.Nc3 3.d4", pgn: `e4 c6 Nc3 d5 d4 dxe4 Nxe4 Bf5 Ng3 Bg6 {Back in the Classical. Same plan.}` }
+  ]
+},
+{
+  id: "scandinavian", name: "Scandinavian Defense", side: "b", eco: "B01", seq: "1.e4 d5",
+  blurb: "Hit e4 on move one. Your queen comes out early but parks safely on a5.",
+  plan: [
+    "1...d5 hits e4 right away. After exd5 Qxd5 your queen is out early.",
+    "Against Nc3, put the queen on a5. It's hard to attack there.",
+    "Develop with ...Nf6, ...Bf5 or ...Bg4, ...c6 and ...e6.",
+    "Watch for Bd2 plus Nd5: the knight move uncovers an attack on your queen."
+  ],
+  lines: [
+    { name: "Main line: 3...Qa5 4.d4", pgn: `e4 d5 {The Scandinavian. Hit e4 at once.} exd5 Qxd5 Nc3 {White hits your queen and gains a tempo.} Qa5 {A safe square. The queen is hard to chase from a5.} d4 Nf6 Nf3 Bf5 {Bishop out before ...e6.} Bc4 e6 Bd2 {Threat: Nd5, uncovering the bishop's attack on your queen.} c6 {Covers d5 and gives your queen a way back.} Qe2 Bb4 {Pin the knight. Next: ...Nbd7 and castle.}` },
+    { name: "Main line: the Nd5 trick", pgn: `e4 d5 exd5 Qxd5 Nc3 Qa5 d4 Nf6 Nf3 Bf5 Bc4 e6 Bd2 c6 Nd5 {Discovered attack: the d2 bishop now hits your queen.} Qd8 {Step back. The d5 knight is attacked twice now.} Nxf6+ Qxf6 {You're fine. Next: ...Nd7, ...Bd6 and castle.}` },
+    { name: "3...Qa5 4.Nf3", pgn: `e4 d5 exd5 Qxd5 Nc3 Qa5 Nf3 Nf6 d4 Bf5 {Same setup.} Bc4 e6 {Next: ...c6, then ...Bb4 or ...Be7.}` },
+    { name: "3...Qa5 4.Bc4", pgn: `e4 d5 exd5 Qxd5 Nc3 Qa5 Bc4 Nf6 {Develop.} d3 c6 {Covers d5 and gives your queen a retreat on c7.} Bd2 Bf5 {Next: ...e6, ...Nbd7 and ...Bb4 or ...Be7.}` },
+    { name: "3.Nf3 Bg4", pgn: `e4 d5 exd5 Qxd5 Nf3 {White develops instead of hitting your queen.} Bg4 {Pin the knight.} Be2 Nc6 d4 O-O-O {Long castle. Your rook hits d4 at once.}` },
+    { name: "3.d4 Nf6", pgn: `e4 d5 exd5 Qxd5 d4 {White grabs the center.} Nf6 Nf3 Bg4 Be2 e6 O-O Nc6 {Pressure on d4. Next: ...O-O-O or ...Be7.}` },
+    { name: "2.e5", pgn: `e4 d5 e5 {White avoids the trade.} Bf5 {Bishop out first, like a good Caro-Kann.} d4 e6 {Next: ...c5 and ...Nc6 to hit d4.}` },
+    { name: "2.Nc3", pgn: `e4 d5 Nc3 {White defends e4 instead.} d4 {Kick the knight and grab space.} Nce2 e5 {Support d4. Next: ...Nc6, ...Nf6 and ...Bd6.}` }
+  ]
+},
+{
+  id: "kings-indian", name: "King's Indian Defense", side: "b", eco: "E60–E99", seq: "1.d4 Nf6 2.c4 g6",
+  blurb: "Let White build a big center, then hit it with ...e5 and attack on the kingside.",
+  plan: [
+    "Fianchetto the bishop on g7 and castle fast.",
+    "Let White take the center, then strike it with ...e5 (or ...c5).",
+    "When White closes the center with d5, move a knight (...Nd7, ...Ne8 or ...Nh5) and push ...f5.",
+    "White attacks on the queenside, you attack on the kingside. Speed matters."
+  ],
+  lines: [
+    { name: "Classical: Mar del Plata", pgn: `d4 Nf6 {Develop and keep e4 under watch.} c4 g6 {Prepare the fianchetto.} Nc3 Bg7 e4 {White takes the big center.} d6 {Control e5.} Nf3 O-O Be2 e5 {Strike the center.} O-O Nc6 {Add pressure to d4.} d5 {White closes the center.} Ne7 {Head for the kingside. Plan: ...Nd7 or ...Ne8, then ...f5.} Ne1 {White plans c5 on the queenside.} Nd7 {Make room for ...f5.} Nd3 f5 {The typical King's Indian attack begins.}` },
+    { name: "Classical: 9.b4 Bayonet", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5 O-O Nc6 d5 Ne7 b4 {Bayonet Attack. White races on the queenside.} Nh5 {Prepare ...f5 and eye f4.}` },
+    { name: "Classical: 7.dxe5 trade", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5 dxe5 {White trades in the center.} dxe5 Qxd8 {Queens come off.} Rxd8 {Equal and easy for you. Next: ...Nc6 or ...Na6 and ...c6.}` },
+    { name: "Classical: 7.d5 Petrosian", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5 d5 {White closes the center at once.} a5 {Slow down b4 before it starts.} Bg5 h6 Bh4 Na6 {The knight heads to c5. Next: ...Qe8 and ...Nc5.}` },
+    { name: "Sämisch: 5.f3", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 f3 {Sämisch. White plans Be3, Qd2 and a kingside attack.} O-O Be3 e5 {Hit the center anyway.} d5 Nh5 {Make room for ...f5.} Qd2 f5 {Fight back on the kingside.}` },
+    { name: "Four Pawns Attack: 5.f4", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 f4 {Four Pawns Attack. A huge center that can become a target.} O-O Nf3 c5 {Strike the center from the side.} d5 e6 {Open lines against White's center.} Be2 exd5 cxd5 Bg4 {Pin the knight that supports e5.}` },
+    { name: "Averbakh: 5.Be2 6.Bg5", pgn: `d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Be2 O-O Bg5 {Averbakh. White pins your knight.} Na6 {Develop. ...e5 or ...c5 comes next.} Qd2 e5 d5 c6 {Open the c-file to fight on the queenside.}` },
+    { name: "Fianchetto: 3.Nf3 4.g3", pgn: `d4 Nf6 c4 g6 Nf3 Bg7 g3 O-O Bg2 d6 O-O Nbd7 Nc3 e5 e4 c6 {Solid. Next: ...Re8, ...Qb6 or ...exd4.}` },
+    { name: "vs the London setup", pgn: `d4 Nf6 Nf3 g6 Bf4 Bg7 e3 O-O Be2 d6 h3 c5 {Hit d4 from the side. Next: ...Nc6 and ...Qb6.}` }
+  ]
+}
+];
+
+const FILES = "abcdefgh";
+const SIDE = { w: "White", b: "Black" };
+const app = document.getElementById("app");
+const CHECK = { errors: [], lines: 0, positions: 0, source: "" };
+const OPS = {};          // id -> opening meta
+const D = {};            // id -> built opening { op, root, nodes, lines, userNodes }
+let ALL_LINES = [];
+const KNOWN = 2;         // clean answers in a row before a position counts as known
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function moveLabel(ply, san) { const n = Math.floor(ply / 2) + 1; return ply % 2 === 0 ? `${n}.${san}` : `${n}...${san}`; }
+function seqText(nodes) { return nodes.map((m, i) => (i % 2 === 0 ? `${i / 2 + 1}.` : "") + m.san).join(" "); }
+function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); }
+function fmtEval(cp) {
+  if (cp == null) return "?";
+  if (Math.abs(cp) > 9000) return cp > 0 ? "winning for you" : "winning for them";
+  const v = cp / 100; return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1);
+}
+function evalWords(cp) {
+  if (cp == null) return "";
+  const a = Math.abs(cp), who = cp > 0 ? "you" : "them";
+  if (a < 35) return "about equal"; if (a < 90) return `slightly better for ${who}`; if (a < 200) return `better for ${who}`; return `clearly better for ${who}`;
+}
+function parsePgn(pgn) {
+  const out = [];
+  for (const t of pgn.match(/\{[^}]*\}|[^\s{}]+/g) || []) {
+    if (t[0] === "{") { if (out.length) out[out.length - 1].note = t.slice(1, -1).trim(); }
+    else if (!/^\d+\.+$/.test(t)) out.push({ san: t, note: "" });
+  }
+  return out;
+}
+function squaresIn(text) {
+  const out = new Set(); const re = /(^|[^A-Za-z0-9])([a-h][1-8])(?![0-9])/g; let m;
+  while ((m = re.exec(text || ""))) out.add(m[2]);
+  return [...out];
+}
+
+/* ---------- Building the trees ---------- */
+// Fallback when trees.json can't load: turn the hand-written lines into the same tree format.
+function curatedTree(op) {
+  const root = { c: [] };
+  for (const raw of op.lines) {
+    const g = new Chess(); let cur = root;
+    for (const m of parsePgn(raw.pgn)) {
+      const r = g.move(m.san);
+      if (!r) { CHECK.errors.push(`${op.name} / ${raw.name}: "${m.san}" is not legal`); break; }
+      const u = r.from + r.to + (r.promotion || "");
+      cur.c = cur.c || [];
+      let k = cur.c.find(x => x.u === u);
+      if (!k) { k = { u, t: r.color === op.side ? "book" : "sideline", n: m.note }; cur.c.push(k); }
+      else if (!k.n && m.note) k.n = m.note;
+      cur = k;
+    }
+  }
+  return root.c;
+}
+function group(name) { const i = name.indexOf(":"); return i > 0 ? name.slice(0, i) : name; }
+function commonGroup(names) { const gs = [...new Set(names.map(group))]; return gs.length === 1 ? gs[0] : "Main line"; }
+function lineName(path) {
+  let base = "", baseIdx = -1;
+  for (let i = path.length - 1; i >= 0; i--) { const nm = path[i].names; if (nm.length) { base = nm.length === 1 ? nm[0] : commonGroup(nm); baseIdx = i; break; } }
+  const dev = path[baseIdx + 1];
+  const devTxt = dev ? moveLabel(dev.ply - 1, dev.san) : "";
+  if (!base) return "Sideline " + devTxt;
+  return devTxt ? `${base} → ${devTxt}` : base;
+}
+function buildOpening(op, tree) {
+  const root = { id: op.id, path: "", kids: [], ply: 0, names: [] };
+  const nodes = []; const g = new Chess();
+  (function walk(list, parent) {
+    for (const j of list || []) {
+      const r = g.move({ from: j.u.slice(0, 2), to: j.u.slice(2, 4), promotion: j.u[4] || "q" });
+      if (!r) { CHECK.errors.push(`${op.name}: illegal move ${j.u} after "${parent.path.trim() || "start"}"`); continue; }
+      const path = parent.path + " " + j.u;
+      const n = { id: op.id + ":" + fnv(path), path, uci: j.u, san: r.san, from: r.from, to: r.to, color: r.color, ply: parent.ply + 1,
+                  note: j.n || "", tag: j.t || "", e: j.e, w: j.w == null ? 1 : j.w, rank: j.r || 0, loss: j.l, parent, kids: [], names: [] };
+      parent.kids.push(n); nodes.push(n);
+      walk(j.c, n);
+      g.undo();
+    }
+  })(tree, root);
+  for (const raw of op.lines) {
+    const g2 = new Chess(); let cur = root;
+    for (const m of parsePgn(raw.pgn)) {
+      const r = g2.move(m.san); if (!r) break;
+      const u = r.from + r.to;
+      const k = cur.kids.find(x => x.uci.slice(0, 4) === u); if (!k) break;
+      k.names.push(raw.name); cur = k;
+    }
+  }
+  const lines = [], seen = new Set();
+  for (const n of nodes) {
+    if (n.kids.length) continue;
+    const path = []; let x = n; while (x && x !== root) { path.unshift(x); x = x.parent; }
+    while (path.length && path[path.length - 1].color !== op.side) path.pop();
+    if (!path.length) continue;
+    const last = path[path.length - 1];
+    if (seen.has(last.id)) continue; seen.add(last.id);
+    const userNodes = path.filter(p => p.color === op.side);
+    let prob = 1; for (const p of path) if (p.color !== op.side) prob *= p.w;
+    lines.push({ id: last.id, op, nodes: path, userNodes, prob, name: lineName(path) });
+  }
+  lines.sort((a, b) => b.prob - a.prob);
+  const um = new Map(); lines.forEach(l => l.userNodes.forEach(u => um.set(u.id, u)));
+  return { op, root, nodes, lines, userNodes: [...um.values()] };
+}
+
+/* ---------- Progress (this browser only) ---------- */
+const STORE = "opening-reps-v2";
+let K = {}, prefs = { arrows: false }, reps = {};
+function load() {
+  try { K = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { K = {}; }
+  try { prefs = Object.assign(prefs, JSON.parse(localStorage.getItem(STORE + "-prefs") || "{}")); } catch (e) {}
+  try { reps = JSON.parse(localStorage.getItem(STORE + "-reps") || "{}") || {}; } catch (e) { reps = {}; }
+}
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify(K)); } catch (e) {}
+  try { localStorage.setItem(STORE + "-prefs", JSON.stringify(prefs)); } catch (e) {}
+  try { localStorage.setItem(STORE + "-reps", JSON.stringify(reps)); } catch (e) {}
+}
+function kn(id) { return K[id] || (K[id] = { s: 0, k: 0, n: 0, t: 0 }); }
+function kp(id) { return K[id] || { s: 0, k: 0, n: 0, t: 0 }; }
+function lineState(l) {
+  let known = 0, seen = 0;
+  for (const u of l.userNodes) { const r = kp(u.id); if (r.k >= KNOWN) known++; if (r.s) seen++; }
+  return { known, seen, total: l.userNodes.length, mastered: known === l.userNodes.length, fresh: seen === 0 };
+}
+function stats(datas) {
+  let known = 0, seen = 0, total = 0, lines = 0, linesM = 0;
+  for (const d of datas) {
+    for (const u of d.userNodes) { const r = kp(u.id); total++; if (r.k >= KNOWN) known++; if (r.s) seen++; }
+    lines += d.lines.length; linesM += d.lines.filter(l => lineState(l).mastered).length;
+  }
+  return { known, seen, total, lines, linesM };
+}
+function progressBar(s) {
+  const k = s.total ? s.known / s.total * 100 : 0, sn = s.total ? Math.max(0, s.seen - s.known) / s.total * 100 : 0;
+  return `<span class="bar" aria-hidden="true"><span class="k" style="width:${k}%"></span><span class="s" style="width:${sn}%"></span></span>`;
+}
+
+/* ---------- Home ---------- */
+function topBar(right) {
+  return `<header class="top"><div class="wrap">
+    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Opening Reps</a>
+    <span class="top-stat">${right}</span></div></header>`;
+}
+function opRow(op) {
+  const d = D[op.id]; const s = stats([d]);
+  return `<a class="op-row" href="#${op.id}">
+    <div class="op-name"><h3>${esc(op.name)}</h3><span class="eco">ECO ${esc(op.eco)} · ${d.engine ? "engine-checked" : "basic lines, engine check coming"}</span></div>
+    <div class="op-prog"><span class="op-count"><b>${s.known}</b> / ${s.total} moves known</span>${progressBar(s)}<span class="op-count">${s.lines} lines · ${reps[op.id] || 0} reps</span></div>
+    <div class="op-seq">${esc(op.seq)}</div>
+    <p class="op-blurb">${esc(op.blurb)}</p>
+  </a>`;
+}
+function renderHome() {
+  stopTrainer();
+  const all = stats(Object.values(D));
+  const white = OPENINGS.filter(o => o.side === "w"), black = OPENINGS.filter(o => o.side === "b");
+  const sw = stats(white.map(o => D[o.id])), sb = stats(black.map(o => D[o.id]));
+  app.innerHTML = `${topBar(`${all.known} of ${all.total} moves known`)}
+  <main class="wrap home">
+    <section class="intro">
+      <span class="eyebrow">10 openings · ${all.lines} lines · ${all.total} moves to learn</span>
+      <h1>Know your next move, whatever they play.</h1>
+      <p>Pick an opening. Each rep plays out one line: the computer picks one of the replies opponents play, including the bad ones, and you find the best answer. New moves are shown to you first; after that it's a test. A move counts as known after ${KNOWN} correct answers in a row.</p>
+    </section>
+    <section class="mix" aria-label="Mixed reps">
+      <div class="mix-text"><strong>Mixed reps</strong><span>Random lines from several openings, so you have to recognize where you are.</span></div>
+      <div class="mix-btns">
+        <a class="btn primary" href="#mix-all">All 10</a>
+        <a class="btn" href="#mix-white">White openings</a>
+        <a class="btn" href="#mix-black">Black openings</a>
+      </div>
+    </section>
+    <div class="groups">
+      <section class="group"><div class="group-h"><h2>You play White</h2><span class="muted" style="font-size:13px">${sw.known} / ${sw.total} moves</span></div>${white.map(opRow).join("")}</section>
+      <section class="group"><div class="group-h"><h2>You play Black</h2><span class="muted" style="font-size:13px">${sb.known} / ${sb.total} moves</span></div>${black.map(opRow).join("")}</section>
+    </div>
+    <footer class="foot">
+      <p>Drag a piece, or tap it and then tap its square. Wrong moves snap back. Miss twice and the board shows you the answer. Blue circles mark the squares a move is about; red dashed arrows show what the piece that just moved is attacking.</p>
+      <p>${CHECK.source === "engine"
+        ? "Moves come from engine analysis (Lichess cloud evaluations). Your moves are the engine's best, or a book move within 0.3 pawns of it. Opponent replies are the engine's top choices plus common sidelines and traps. They are not weighted by how often real players choose them."
+        : "Engine trees didn't load, so only the hand-written lines are shown."} Your progress is saved in this browser only.</p>
+      ${CHECK.errors.length ? `<p class="check-note">${CHECK.errors.length} move(s) failed the legality check and were left out.</p>` : ""}
+    </footer>
+  </main>`;
+}
+
+/* ---------- Trainer ---------- */
+let T = null;
+function stopTrainer() { if (T && T.pending) clearTimeout(T.pending); T = null; }
+const TAG = {
+  best: ["Best", "The engine's top move here."],
+  book: ["Book", "A main book move, as good as the engine's top choice."],
+  unchecked: ["Book", ""],
+  top: ["Top reply", "Their most accurate reply."],
+  good: ["Good reply", "A solid alternative for them."],
+  inaccuracy: ["Inaccuracy", ""],
+  mistake: ["Mistake", ""],
+  sideline: ["Sideline", "A sideline. Know how to meet it."]
+};
+function noteFor(n) {
+  let t = n.note || (TAG[n.tag] ? TAG[n.tag][1] : "");
+  if (n.tag === "mistake") t = (t ? t + " " : "") + `Engine: this hands you ${fmtEval(n.e)}. Find the punishment.`;
+  else if (n.tag === "inaccuracy") t = (t ? t + " " : "") + `Engine: not their best. You can get an edge (${fmtEval(n.e)}).`;
+  return t;
+}
+
+function openTrainer(cfg) {
+  stopTrainer();
+  let pool, title, datas;
+  if (cfg.op) { datas = [D[cfg.op.id]]; title = cfg.op.name; }
+  else { datas = OPENINGS.filter(o => cfg.mix === "all" || o.side === cfg.mix).map(o => D[o.id]); title = cfg.mix === "all" ? "Mixed reps" : `Mixed reps: ${SIDE[cfg.mix]}`; }
+  pool = datas.flatMap(d => d.lines);
+  T = { cfg, pool, datas, title, game: new Chess(), line: null, nodes: [], side: "w", ply: 0, mistakes: 0, wrong: 0, assisted: false, learned: 0,
+        newNode: false, hintNow: false, arrowNow: false, punish: false, selected: null, targets: [], pending: null, done: false, last: null,
+        threats: [], focus: [], badSq: null, lastId: null, feed: [], result: null, evalCp: 20, session: { reps: 0, clean: 0 },
+        tab: "lines", filter: "all", drag: null, sqEls: {}, resetArmed: false, status: { kind: "wait" } };
+  if (!pool.length) { app.innerHTML = `<div class="wrap"><div class="err">No lines are available for this opening.</div></div>`; return; }
+  renderShell();
+  startRep();
+}
+
+function pickLine(pool, lastId) {
+  const info = pool.filter(l => l.id !== lastId || pool.length === 1).map(l => {
+    let weak = 0, fresh = 0, oldest = Infinity;
+    for (const u of l.userNodes) { const r = kp(u.id); if (!r.s) fresh++; else if (r.k < KNOWN) weak++; oldest = Math.min(oldest, r.t || 0); }
+    return { l, weak, fresh, oldest };
+  });
+  const weak = info.filter(x => x.weak > 0), fresh = info.filter(x => x.fresh > 0);
+  let cand, wf;
+  if (weak.length && (Math.random() < 0.65 || !fresh.length)) { cand = weak; wf = x => x.l.prob * (1 + x.weak); }
+  else if (fresh.length) { fresh.sort((a, b) => b.l.prob - a.l.prob || a.fresh - b.fresh); cand = fresh.slice(0, 3); wf = x => x.l.prob; }
+  else { const now = Date.now(); cand = info; wf = x => x.l.prob * (1 + (now - x.oldest) / 36e5 / 12); }
+  let tot = 0; for (const x of cand) tot += wf(x);
+  let r = Math.random() * tot; for (const x of cand) { r -= wf(x); if (r <= 0) return x.l; }
+  return cand[cand.length - 1].l;
+}
+
+function startRep(forced) {
+  if (!T) return;
+  if (T.pending) { clearTimeout(T.pending); T.pending = null; }
+  const line = forced || pickLine(T.pool, T.lastId);
+  const sideChanged = !T.line || T.side !== line.op.side;
+  T.line = line; T.nodes = line.nodes; T.side = line.op.side; T.lastId = line.id;
+  T.game.reset(); T.ply = 0; T.mistakes = 0; T.wrong = 0; T.learned = 0; T.assisted = !!prefs.arrows; T.done = false;
+  T.last = null; T.selected = null; T.targets = []; T.result = null; T.badSq = null; T.threats = []; T.focus = []; T.feed = []; T.punish = false; T.evalCp = 20;
+  if (sideChanged || !T.sqEls.a1) buildBoard();
+  renderHead(); renderTab();
+  step(false);
+}
+
+function step(keepStatus) {
+  if (!T) return;
+  if (T.ply >= T.nodes.length) return finish();
+  const m = T.nodes[T.ply];
+  if (m.color === T.side) {
+    T.wrong = 0; T.hintNow = false;
+    T.newNode = !kp(m.id).s;
+    T.arrowNow = T.newNode || !!prefs.arrows;
+    if (!keepStatus || T.newNode) setStatus(T.newNode ? "teach" : T.punish ? "punish" : "turn");
+    renderAll();
+  } else {
+    if (!keepStatus) setStatus("wait");
+    renderAll();
+    T.pending = setTimeout(() => { T.pending = null; playOpp(m); }, T.ply === 0 ? 500 : 600);
+  }
+}
+
+function afterMove(m) {
+  T.last = { from: m.from, to: m.to };
+  T.threats = threatsOf(m.to, m.color).slice(0, 3);
+  T.focus = squaresIn(m.note);
+  if (m.e != null) T.evalCp = m.e;
+}
+function playOpp(m) {
+  if (!T) return;
+  T.game.move({ from: m.from, to: m.to, promotion: m.uci[4] || "q" });
+  afterMove(m);
+  T.punish = m.tag === "mistake" || m.tag === "inaccuracy";
+  T.feed.push({ who: SIDE[m.color], label: moveLabel(T.ply, m.san), text: noteFor(m), tag: m.tag });
+  T.ply++;
+  renderBoard(); animate(m.from, m.to);
+  step(false);
+}
+
+function userTry(from, to, anim) {
+  const exp = T.nodes[T.ply];
+  const mv = T.game.move({ from, to, promotion: "q" });
+  T.selected = null; T.targets = [];
+  if (!mv) { renderBoard(); return; }
+  const r = kn(exp.id);
+  if (mv.from === exp.from && mv.to === exp.to) {
+    r.n++; r.t = Date.now();
+    if (T.newNode) { if (!r.s) T.learned++; r.s = 1; }
+    else if (T.wrong === 0 && !T.hintNow && !prefs.arrows) r.k++;
+    save();
+    afterMove(exp);
+    T.feed.push({ who: "You", label: moveLabel(T.ply, mv.san), text: noteFor(exp), tag: exp.tag });
+    T.ply++; T.arrowNow = false; T.punish = false;
+    renderBoard(); if (anim) animate(from, to);
+    setStatus(T.newNode ? "teachgood" : "good");
+    step(true);
+  } else {
+    T.game.undo();
+    T.wrong++;
+    if (!T.newNode) { r.k = 0; r.t = Date.now(); if (T.wrong === 1) T.mistakes++; save(); }
+    flashBad(to);
+    if (T.wrong >= 2 || T.newNode) { T.arrowNow = true; setStatus("shown"); }
+    else setStatus("bad", mv.san);
+    renderAll();
+  }
+}
+
+function finish() {
+  T.done = true; T.focus = []; T.threats = T.threats || [];
+  reps[T.line.op.id] = (reps[T.line.op.id] || 0) + 1;
+  T.session.reps++;
+  if (T.mistakes === 0 && !T.assisted && T.learned === 0) { T.result = "clean"; T.session.clean++; }
+  else if (T.mistakes === 0 && T.learned > 0) T.result = "learned";
+  else if (T.mistakes) T.result = "missed";
+  else T.result = "assisted";
+  save();
+  setStatus("done");
+  renderAll(); renderHead(); renderTab();
+  const nb = document.getElementById("btn-next"); if (nb) nb.focus({ preventScroll: true });
+}
+
+function hint() {
+  if (!canMove() || T.arrowNow) return;
+  T.arrowNow = true; T.assisted = true; T.hintNow = true;
+  const r = kn(T.nodes[T.ply].id); r.k = 0; save();
+  setStatus("shown");
+  renderAll();
+}
+
+/* ---------- Status ---------- */
+function setStatus(kind, extra) { T.status = { kind, extra }; }
+function statusHTML() {
+  const s = T.status || { kind: "wait" };
+  const exp = !T.done && T.nodes[T.ply];
+  const opp = SIDE[T.side === "w" ? "b" : "w"];
+  let cls = s.kind, t = "", sub = "";
+  switch (s.kind) {
+    case "turn": t = "Your move"; sub = T.ply === 0 ? `You play ${SIDE[T.side]}. Make your first move.` : "Find the best move."; break;
+    case "punish": cls = "teach"; t = "Punish it"; sub = `${opp} made a mistake. Find the strongest reply.`; break;
+    case "teach": t = `New move: play ${exp ? moveLabel(T.ply, exp.san) : ""}`; sub = "Follow the arrow this time. Next time it's a test."; break;
+    case "teachgood": cls = "good"; t = "Good"; sub = `${opp} is replying…`; break;
+    case "good": t = "Correct"; sub = `${opp} is replying…`; break;
+    case "wait": t = `${opp} to move`; sub = "Watch the reply."; break;
+    case "bad": t = "Not the best move"; sub = `${esc(s.extra || "")} isn't the move here. Try again. A second miss shows the answer.`; break;
+    case "shown": t = `The move is ${exp ? moveLabel(T.ply, exp.san) : ""}`; sub = "Follow the arrow."; break;
+    case "done": {
+      const st = lineState(T.line);
+      const tail = `You know ${st.known} of ${st.total} moves in this line.`;
+      if (T.result === "learned") { cls = "teach"; t = `Learned ${T.learned} new move${T.learned > 1 ? "s" : ""}`; sub = "They come back as a test. " + tail; }
+      else if (T.result === "clean") { cls = "good"; t = st.mastered ? "Clean rep. Line known" : "Clean rep"; sub = tail; }
+      else if (T.result === "assisted") { cls = "turn"; t = "Line done, with help"; sub = "Hints or study mode were on, so moves don't count as known. " + tail; }
+      else { cls = "bad"; t = `Line done, ${T.mistakes} mistake${T.mistakes > 1 ? "s" : ""}`; sub = "Missed moves come back soon. " + tail; }
+      break;
+    }
+  }
+  if (s.kind === "wait" || ((s.kind === "good" || s.kind === "teachgood") && T.pending)) cls += " wait";
+  return `<div class="status ${cls}" role="status" aria-live="polite"><span class="st-dot"></span><div><div class="st-t">${t}</div><div class="st-s">${sub}</div></div></div>`;
+}
+
+/* ---------- Layout ---------- */
+function renderShell() {
+  app.innerHTML = `${topBar(`<span id="top-sess"></span>`)}
+  <main class="wrap trainer">
+    <div class="board-col">
+      <div class="board-wrap"><div class="board" id="board" aria-label="Chess board"></div><svg id="arrows" viewBox="0 0 8 8" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+      <div class="evalbar"><div class="evaltrack" id="evaltrack"><div class="evalfill" id="evalfill"></div></div><div class="evaltxt"><span id="eval-l"></span><span id="eval-r"></span></div></div>
+      <div class="legend"><span><b></b>Squares this move is about</span><span><i></i>What the last move attacks</span></div>
+    </div>
+    <aside class="coach">
+      <div class="coach-head" id="head"></div>
+      <div id="status"></div>
+      <div class="feed" id="feed"></div>
+      <div class="moves" id="moves" aria-label="Moves so far"></div>
+      <div class="actions" id="actions"></div>
+      <label class="toggle"><input type="checkbox" id="opt-arrows" ${prefs.arrows ? "checked" : ""}> Always show the next move (study mode)</label>
+      <div>
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" data-tab="lines" id="tab-lines">Lines</button>
+          <button class="tab" role="tab" data-tab="ideas" id="tab-ideas">Ideas</button>
+        </div>
+        <div class="tabpane" id="pane"></div>
+      </div>
+    </aside>
+  </main>`;
+  const b = document.getElementById("board");
+  b.addEventListener("pointerdown", onDown);
+  b.addEventListener("pointermove", onMoveP);
+  b.addEventListener("pointerup", onUp);
+  b.addEventListener("pointercancel", onCancel);
+  document.getElementById("opt-arrows").addEventListener("change", e => {
+    prefs.arrows = e.target.checked; save();
+    if (prefs.arrows) { T.assisted = true; if (canMove()) T.arrowNow = true; }
+    renderAll();
+  });
+}
+
+function renderHead() {
+  const op = T.line.op;
+  const s = stats(T.datas);
+  const showName = T.done;
+  document.getElementById("head").innerHTML = `
+    <a class="crumb" href="#">← All openings</a>
+    <h1 class="coach-title">${esc(op.name)}</h1>
+    <div class="chips"><span class="chip side-${T.side}">You play ${SIDE[T.side]}</span>${T.cfg.op ? "" : `<span class="chip">${esc(T.title)}</span>`}<span class="chip">${s.known} / ${s.total} moves known</span><span class="chip">${reps[op.id] || 0} reps</span></div>
+    <div class="line-label">Line: ${showName ? `<b>${esc(T.line.name)}</b>` : "shown at the end"}</div>`;
+  document.getElementById("top-sess").textContent = `This session: ${T.session.reps} rep${T.session.reps === 1 ? "" : "s"}, ${T.session.clean} clean`;
+}
+
+function renderFeed() {
+  const items = T.feed.slice(-2).map(f => `<div class="fe"><div class="fe-h">${f.who} played <span class="mv">${esc(f.label)}</span>${TAG[f.tag] ? `<span class="tagchip ${f.tag}">${TAG[f.tag][0]}</span>` : ""}</div>${f.text ? `<p>${esc(f.text)}</p>` : ""}</div>`);
+  if (!T.done && T.arrowNow && canMove()) {
+    const exp = T.nodes[T.ply], txt = noteFor(exp);
+    if (txt) items.push(`<div class="fe preview"><div class="fe-h">Why <span class="mv">${esc(moveLabel(T.ply, exp.san))}</span></div><p>${esc(txt)}</p></div>`);
+  }
+  if (!items.length) items.push(`<div class="fe"><p class="muted">${T.side === "w" ? "You move first." : "White moves first. Watch the board."}</p></div>`);
+  document.getElementById("feed").innerHTML = items.join("");
+}
+
+function renderMoves() {
+  const ms = T.nodes.slice(0, T.ply);
+  let html = "";
+  for (let i = 0; i < ms.length; i += 2) {
+    const a = ms[i], b = ms[i + 1];
+    html += `<span class="pair"><span class="num">${i / 2 + 1}.</span><span class="${i === T.ply - 1 ? "cur" : ""}">${a.san}</span>${b ? ` <span class="${i + 1 === T.ply - 1 ? "cur" : ""}">${b.san}</span>` : ""}</span>`;
+  }
+  document.getElementById("moves").innerHTML = html || `<span class="muted">Moves appear here.</span>`;
+}
+
+function renderEval() {
+  const cp = T.evalCp == null ? 0 : Math.max(-1000, Math.min(1000, T.evalCp));
+  const share = 50 + 50 * (2 / (1 + Math.exp(-cp / 250)) - 1);
+  const track = document.getElementById("evaltrack");
+  track.classList.toggle("flip", T.side === "b");
+  document.getElementById("evalfill").style.width = share + "%";
+  document.getElementById("eval-l").textContent = `Engine: ${fmtEval(T.evalCp)} (${evalWords(T.evalCp)})`;
+  document.getElementById("eval-r").textContent = T.done ? `${T.nodes.length} moves in this line` : `Move ${Math.floor(T.ply / 2) + 1}${T.mistakes ? ` · ${T.mistakes} mistake${T.mistakes > 1 ? "s" : ""}` : ""}`;
+}
+
+function renderActions() {
+  const el = document.getElementById("actions");
+  if (T.done) el.innerHTML = `<button class="btn primary" id="btn-next" data-act="next">Next rep <kbd>Enter</kbd></button><button class="btn" data-act="restart">Repeat this line</button>`;
+  else el.innerHTML = `<button class="btn" data-act="hint" ${canMove() && !T.arrowNow ? "" : "disabled"}>Hint <kbd>H</kbd></button><button class="btn" data-act="restart">Restart line</button><button class="btn grow" data-act="next">Skip</button>`;
+}
+
+function renderTab() {
+  const op = T.line.op, d = D[op.id];
+  document.getElementById("tab-lines").setAttribute("aria-selected", T.tab === "lines");
+  document.getElementById("tab-ideas").setAttribute("aria-selected", T.tab === "ideas");
+  const pane = document.getElementById("pane");
+  if (T.tab === "ideas") {
+    pane.innerHTML = `<p style="margin:12px 0 10px">${esc(op.blurb)}</p><ul class="ideas">${op.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ul>`;
+    return;
+  }
+  const rows = d.lines.map(l => ({ l, st: lineState(l) })).filter(x =>
+    T.filter === "all" || (T.filter === "new" && x.st.fresh) || (T.filter === "learning" && !x.st.fresh && !x.st.mastered) || (T.filter === "known" && x.st.mastered));
+  const btn = (f, label) => `<button class="mini" data-filter="${f}" aria-pressed="${T.filter === f}">${label}</button>`;
+  pane.innerHTML = `<div class="filters">${btn("all", "All " + d.lines.length)}${btn("new", "New")}${btn("learning", "Learning")}${btn("known", "Known")}</div>` +
+    (rows.length ? rows.map(({ l, st }) => {
+      const isNow = l.id === T.line.id && T.done;
+      const chip = st.mastered ? `<span class="ln-chip known">Known</span>` : st.fresh ? `<span class="ln-chip">New</span>` : `<span class="ln-chip learning">${st.known}/${st.total}</span>`;
+      const tail = l.nodes.slice(-6);
+      const off = l.nodes.length - tail.length;
+      const tailTxt = tail.map((m, i) => { const p = off + i; return (p % 2 === 0 ? `${p / 2 + 1}.` : (i === 0 ? `${Math.floor(p / 2) + 1}...` : "")) + m.san; }).join(" ");
+      return `<div class="ln${isNow ? " now" : ""}">
+        <div class="ln-name">${esc(l.name)}</div>
+        <div class="ln-side">${chip}<button class="mini" data-act="practice" data-id="${esc(l.id)}">Drill</button></div>
+        <div class="ln-seq">${off ? "… " : ""}${esc(tailTxt)}</div></div>`;
+    }).join("") : `<p class="muted" style="padding:10px 0">No lines in this group yet.</p>`) +
+    `<div class="pane-foot"><span class="muted">${stats([d]).linesM} of ${d.lines.length} lines fully known</span><button class="link" data-act="reset" id="btn-reset">Reset progress for ${esc(op.name)}</button></div>`;
+}
+
+function renderAll() { renderBoard(); renderOverlay(); document.getElementById("status").innerHTML = statusHTML(); renderFeed(); renderMoves(); renderActions(); renderEval(); }
+
+/* ---------- Board ---------- */
+function buildBoard() {
+  const b = document.getElementById("board");
+  b.innerHTML = ""; T.sqEls = {};
+  const flip = T.side === "b";
+  for (let row = 0; row < 8; row++) for (let col = 0; col < 8; col++) {
+    const f = flip ? 7 - col : col, rank = flip ? row + 1 : 8 - row;
+    const sq = FILES[f] + rank;
+    const el = document.createElement("div");
+    const base = "sq " + ((f + rank - 1) % 2 === 0 ? "d" : "l");
+    el.className = base; el.dataset.base = base; el.dataset.sq = sq;
+    if (col === 0) el.insertAdjacentHTML("beforeend", `<span class="co r">${rank}</span>`);
+    if (row === 7) el.insertAdjacentHTML("beforeend", `<span class="co f">${FILES[f]}</span>`);
+    b.appendChild(el); T.sqEls[sq] = el;
+  }
+}
+function dispPos(sq) { const f = FILES.indexOf(sq[0]), rank = +sq[1], flip = T.side === "b"; return { col: flip ? 7 - f : f, row: flip ? rank - 1 : 8 - rank }; }
+function kingSquare(color) {
+  for (const f of FILES) for (let r = 1; r <= 8; r++) { const p = T.game.get(f + r); if (p && p.type === "k" && p.color === color) return f + r; }
+  return null;
+}
+function threatsOf(sq, color) {
+  const parts = T.game.fen().split(" "); parts[1] = color; parts[3] = "-";
+  const g = new Chess();
+  if (!g.load(parts.join(" "))) return [];
+  return g.moves({ square: sq, verbose: true }).filter(m => m.flags.indexOf("c") >= 0 || m.flags.indexOf("e") >= 0)
+    .map(m => m.to).filter(t => { const p = g.get(t); return p && p.type !== "k"; });
+}
+function renderBoard() {
+  const g = T.game;
+  const chk = g.in_check() ? kingSquare(g.turn()) : null;
+  for (const sq in T.sqEls) {
+    const el = T.sqEls[sq];
+    let cls = el.dataset.base;
+    if (T.last && (sq === T.last.from || sq === T.last.to)) cls += " last";
+    if (sq === T.selected) cls += " sel";
+    if (T.targets.includes(sq)) cls += " tgt" + (g.get(sq) ? " cap" : "");
+    if (sq === chk) cls += " chk";
+    if (sq === T.badSq) cls += " bad";
+    el.className = cls;
+    const p = g.get(sq), code = p ? p.color + p.type : "";
+    let pc = el.querySelector(".pc");
+    if (!code) { if (pc) pc.remove(); }
+    else if (!pc || pc.dataset.code !== code) {
+      if (pc) pc.remove();
+      pc = document.createElement("span");
+      pc.className = `pc c-${p.color} t-${p.type}`; pc.dataset.code = code;
+      el.appendChild(pc);
+    }
+  }
+}
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function animate(from, to) {
+  const pc = T.sqEls[to] && T.sqEls[to].querySelector(".pc");
+  if (!pc || reduceMotion) return;
+  const a = dispPos(from), b = dispPos(to);
+  pc.style.transition = "none"; pc.style.zIndex = 10;
+  pc.style.transform = `translate(${(a.col - b.col) * 100}%, ${(a.row - b.row) * 100}%)`;
+  void pc.offsetWidth;
+  pc.style.transition = "transform 200ms cubic-bezier(.2,.7,.3,1)"; pc.style.transform = "";
+  setTimeout(() => { pc.style.zIndex = ""; pc.style.transition = ""; }, 240);
+}
+function flashBad(sq) {
+  T.badSq = sq; renderBoard();
+  setTimeout(() => { if (T && T.badSq === sq) { T.badSq = null; renderBoard(); } }, 450);
+}
+function arrowSVG(from, to, lineCls, headCls, head, hw, shrink) {
+  const a = dispPos(from), b = dispPos(to);
+  const x1 = a.col + .5, y1 = a.row + .5, x2 = b.col + .5, y2 = b.row + .5;
+  const len = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / len, uy = (y2 - y1) / len;
+  const tx = x2 - ux * shrink, ty = y2 - uy * shrink;
+  const bx = tx - ux * head, by = ty - uy * head, px = -uy, py = ux;
+  return `<line class="${lineCls}" x1="${x1 + ux * .2}" y1="${y1 + uy * .2}" x2="${bx}" y2="${by}"/><polygon class="${headCls}" points="${tx},${ty} ${bx + px * hw},${by + py * hw} ${bx - px * hw},${by - py * hw}"/>`;
+}
+function renderOverlay() {
+  const svg = document.getElementById("arrows");
+  let out = "";
+  const focus = new Set(T.done ? [] : T.focus);
+  if (!T.done && T.arrowNow && canMove()) squaresIn(T.nodes[T.ply].note).forEach(s => focus.add(s));
+  focus.forEach(s => { const p = dispPos(s); out += `<circle class="fo-c" cx="${p.col + .5}" cy="${p.row + .5}" r=".43"/>`; });
+  if (T.last && !T.done) T.threats.forEach(t => { out += arrowSVG(T.last.to, t, "th-l", "th-h", .22, .13, .28); });
+  if (!T.done && T.arrowNow && canMove()) { const m = T.nodes[T.ply]; out += arrowSVG(m.from, m.to, "ar-l", "ar-h", .42, .26, 0); }
+  svg.innerHTML = out;
+}
+
+/* ---------- Input ---------- */
+function canMove() { return T && !T.done && !T.pending && T.ply < T.nodes.length && T.game.turn() === T.side; }
+function sqAt(e) {
+  const r = document.getElementById("board").getBoundingClientRect();
+  const col = Math.floor((e.clientX - r.left) / r.width * 8), row = Math.floor((e.clientY - r.top) / r.height * 8);
+  if (col < 0 || col > 7 || row < 0 || row > 7) return null;
+  const flip = T.side === "b";
+  return FILES[flip ? 7 - col : col] + (flip ? row + 1 : 8 - row);
+}
+function onDown(e) {
+  if (!canMove()) return;
+  const sq = sqAt(e); if (!sq) return;
+  e.preventDefault();
+  if (T.selected && T.targets.includes(sq)) { userTry(T.selected, sq, true); return; }
+  const p = T.game.get(sq);
+  if (p && p.color === T.side) {
+    T.selected = sq;
+    T.targets = T.game.moves({ square: sq, verbose: true }).map(m => m.to);
+    renderBoard();
+    const pc = T.sqEls[sq].querySelector(".pc");
+    T.drag = { from: sq, x: e.clientX, y: e.clientY, pc, active: false };
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+  } else if (T.selected) { T.selected = null; T.targets = []; renderBoard(); }
+}
+function onMoveP(e) {
+  const d = T && T.drag; if (!d || !d.pc) return;
+  const dx = e.clientX - d.x, dy = e.clientY - d.y;
+  if (!d.active && Math.hypot(dx, dy) > 5) { d.active = true; d.pc.classList.add("dragging"); }
+  if (d.active) d.pc.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+function onUp(e) {
+  const d = T && T.drag; if (!d) return;
+  T.drag = null;
+  if (!d.active) return;
+  d.pc.classList.remove("dragging"); d.pc.style.transform = "";
+  const sq = sqAt(e);
+  if (sq && sq !== d.from && T.targets.includes(sq)) userTry(d.from, sq, false);
+  else if (sq !== d.from) { T.selected = null; T.targets = []; renderBoard(); }
+}
+function onCancel() { const d = T && T.drag; if (!d) return; T.drag = null; if (d.pc) { d.pc.classList.remove("dragging"); d.pc.style.transform = ""; } }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act],[data-tab],[data-filter]");
+  if (!b || !T) return;
+  if (b.dataset.tab) { T.tab = b.dataset.tab; renderTab(); return; }
+  if (b.dataset.filter) { T.filter = b.dataset.filter; renderTab(); return; }
+  const act = b.dataset.act;
+  if (act === "next") startRep();
+  else if (act === "restart") startRep(T.line);
+  else if (act === "hint") hint();
+  else if (act === "practice") { const l = ALL_LINES.find(x => x.id === b.dataset.id); if (l) startRep(l); }
+  else if (act === "reset") {
+    if (!T.resetArmed) { T.resetArmed = true; b.textContent = "Tap again to reset"; setTimeout(() => { if (T) { T.resetArmed = false; renderTab(); } }, 3000); return; }
+    T.resetArmed = false;
+    D[T.line.op.id].nodes.forEach(n => delete K[n.id]); reps[T.line.op.id] = 0; save();
+    startRep();
+  }
+});
+document.addEventListener("keydown", e => {
+  if (!T || e.target.closest("input,textarea")) return;
+  if (e.key === "Enter" && T.done) { e.preventDefault(); startRep(); }
+  else if ((e.key === "h" || e.key === "H") && !e.metaKey && !e.ctrlKey) hint();
+});
+
+/* ---------- Routing and start-up ---------- */
+function route() {
+  const h = location.hash.slice(1);
+  if (OPS[h]) openTrainer({ op: OPS[h] });
+  else if (h === "mix-all") openTrainer({ mix: "all" });
+  else if (h === "mix-white") openTrainer({ mix: "w" });
+  else if (h === "mix-black") openTrainer({ mix: "b" });
+  else renderHome();
+  window.scrollTo(0, 0);
+}
+async function init() {
+  app.innerHTML = `<div class="wrap"><p class="muted" style="padding-block:40px">Loading the opening trees…</p></div>`;
+  load();
+  let trees = null;
+  try { const r = await fetch("trees.json", { cache: "no-cache" }); if (r.ok) trees = await r.json(); } catch (e) { trees = null; }
+  const byId = {}; (trees || []).forEach(t => { byId[t.id] = t; });
+  CHECK.source = trees ? "engine" : "curated";
+  for (const op of OPENINGS) {
+    OPS[op.id] = op;
+    const tree = byId[op.id] ? byId[op.id].tree : curatedTree(op);
+    D[op.id] = buildOpening(op, tree);
+    D[op.id].engine = !!byId[op.id];
+    ALL_LINES.push(...D[op.id].lines);
+  }
+  CHECK.lines = ALL_LINES.length;
+  CHECK.positions = Object.values(D).reduce((a, d) => a + d.userNodes.length, 0);
+  if (CHECK.errors.length) CHECK.errors.forEach(e => console.error("[Opening Reps check]", e));
+  console.log(`[Opening Reps check] source=${CHECK.source} lines=${CHECK.lines} positions=${CHECK.positions} errors=${CHECK.errors.length}`);
+  window.__openingCheck = CHECK;
+  window.addEventListener("hashchange", route);
+  route();
+}
+(function boot() {
+  if (typeof Chess !== "undefined") return init();
+  const s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/chess.js@0.10.3/chess.js";
+  s.onload = init;
+  s.onerror = () => { app.innerHTML = `<div class="wrap"><div class="err">The chess engine didn't load. Check your connection and reload the page.</div></div>`; };
+  document.head.appendChild(s);
+})();
+</script>
