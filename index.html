@@ -666,9 +666,11 @@ const TAG = {
   good: ["Good reply", "A solid alternative for them."],
   inaccuracy: ["Inaccuracy", ""],
   mistake: ["Mistake", ""],
-  sideline: ["Sideline", "A sideline. Know how to meet it."]
+  sideline: ["Sideline", "A sideline. Know how to meet it."],
+  opening: ["Opening move", ""]
 };
 function noteFor(n) {
+  if (n.forced) return n.note || "";
   let t = n.note || (TAG[n.tag] ? TAG[n.tag][1] : "");
   if (n.tag === "mistake") t = (t ? t + " " : "") + `Engine: this hands you ${fmtEval(n.e)}. Find the punishment.`;
   else if (n.tag === "inaccuracy") t = (t ? t + " " : "") + `Engine: not their best. You can get an edge (${fmtEval(n.e)}).`;
@@ -747,7 +749,7 @@ function playOpp(m) {
   T.game.move({ from: m.from, to: m.to, promotion: m.uci[4] || "q" });
   afterMove(m);
   T.punish = m.tag === "mistake" || m.tag === "inaccuracy";
-  T.feed.push({ who: SIDE[m.color], label: moveLabel(T.ply, m.san), text: noteFor(m), tag: m.tag });
+  T.feed.push({ who: SIDE[m.color], label: moveLabel(T.ply, m.san), text: noteFor(m), tag: m.forced ? "opening" : m.tag });
   T.ply++;
   renderBoard(); animate(m.from, m.to);
   step(false);
@@ -1118,6 +1120,8 @@ async function init() {
     const tree = byId[op.id] ? byId[op.id].tree : curatedTree(op);
     D[op.id] = buildOpening(op, tree);
     D[op.id].engine = !!byId[op.id];
+    // the opening's defining moves (e.g. 1.e4 in the Sicilian) are fixed, not a choice the opponent made
+    if (byId[op.id]) { const pre = byId[op.id].prefix || 0; D[op.id].lines.forEach(l => l.nodes.forEach(n => { if (n.ply <= pre) n.forced = true; })); }
     ALL_LINES.push(...D[op.id].lines);
   }
   CHECK.lines = ALL_LINES.length;
